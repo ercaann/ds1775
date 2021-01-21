@@ -1,0 +1,79 @@
+/*
+ * DS1775.h
+ *
+ *  Created on: May 8, 2020
+ *      Author: ERCAN
+ */
+#include<stdint.h>
+#include<string.h>
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_i2c.h"
+
+#define DS1775R_ADDR		0x48
+#define DS1775R1_ADDR		0x48 | 1
+#define DS1775R2_ADDR		0x48 | 2
+#define DS1775R3_ADDR		0x48 | 3
+#define DS1775R4_ADDR		0x48 | 4
+#define DS1775R5_ADDR		0x48 | 5
+#define DS1775R6_ADDR		0x48 | 6
+#define DS1775R7_ADDR		0x48 | 7
+
+#define TEMPERATURE			0x00
+#define CONFIGURATION		0x01
+#define THYST				0x02
+#define TOS					0x03
+
+
+#define COMPAROTOR_MODE		0
+#define INTERRUPT_MODE		1
+
+#define	FAULT_TOL1			0
+#define	FAULT_TOL2			1
+#define	FAULT_TOL4			2
+#define	FAULT_TOL6			3
+
+#define TEMP_RES_9			0
+#define TEMP_RES_10			1
+#define TEMP_RES_11			2
+#define TEMP_RES_12			3
+
+#define ENABLE				1
+#define DISABLE				0
+#define HIGH				ENABLE
+#define LOW					DISABLE
+
+typedef enum {
+	DS1775_Result_Ok = 0x00,
+	DS1775_Result_Error,
+	DS1775_Result_DeviveNotConnected,
+	DS1775_Device_Invalid
+}DS1775_Result;
+
+typedef union {
+	struct{
+		uint8_t SD:1;
+		uint8_t TM:1;
+		uint8_t POL:1;
+		uint8_t F0F1:2;
+		uint8_t R0R1:2;
+		uint8_t RW:1;
+	}F;
+	uint8_t Status;
+}D1775_Configuration;
+
+typedef struct{
+	int16_t temp;
+	int16_t tos;
+	int16_t thyst;
+}DS1775_Data;
+
+
+DS1775_Result
+
+
+#ifndef INC_DS1775_H_
+#define INC_DS1775_H_
+
+
+
+#endif /* INC_DS1775_H_ */

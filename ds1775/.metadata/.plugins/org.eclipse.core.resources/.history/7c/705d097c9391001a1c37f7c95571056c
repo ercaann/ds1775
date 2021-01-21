@@ -1,0 +1,88 @@
+/*
+ * DS1775.h
+ *
+ *  Created on: May 8, 2020
+ *      Author: ERCAN
+ */
+#include<stdint.h>
+
+#define DS1775R_ADDR		0x48
+#define DS1775R1_ADDR		0x48 | 1
+#define DS1775R2_ADDR		0x48 | 2
+#define DS1775R3_ADDR		0x48 | 3
+#define DS1775R4_ADDR		0x48 | 4
+#define DS1775R5_ADDR		0x48 | 5
+#define DS1775R6_ADDR		0x48 | 6
+#define DS1775R7_ADDR		0x48 | 7
+
+#define TEMPERATURE			0x00
+#define CONFIGURATION		0x01
+#define THYST				0x02
+#define TOS					0x03
+
+#define DS1775	((DS1775_RegDef_t*)CONFIGURATION)
+
+#define STATUS_SD			0
+#define STATUS_TM			1
+#define STATUS_POL			2
+#define STATUS_F0F1			3
+#define STATUS_R0R1			5
+#define STATUS_RW			7
+
+#define COMPAROTOR_MODE		0
+#define INTERRUPT_MODE		1
+
+#define	FAULT_TOL1			0
+#define	FAULT_TOL2			1
+#define	FAULT_TOL4			2
+#define	FAULT_TOL6			3
+
+#define TEMP_RES_9			0
+#define TEMP_RES_10			1
+#define TEMP_RES_11			2
+#define TEMP_RES_12			3
+
+#define ENABLE				1
+#define DISABLE				0
+#define HIGH				ENABLE
+#define LOW					DISABLE
+
+
+typedef struct{
+
+	volatile uint8_t STATUS;		  // Configuration Status Register    			 -> Address offset 0x01
+
+}DS1775_RegDef_t;
+
+
+typedef struct
+{
+	uint8_t DS1775_Mode;
+	uint8_t DS1775_Thermostat;
+	uint8_t DS1775_FaultTol;
+	uint8_t DS1775_TempRes;
+
+}DS1775_PinConfig_t;
+
+
+typedef struct
+{
+	DS1775_RegDef_t *pREG;
+	DS1775_PinConfig_t DS1775_PinConfig;
+
+}DS1775_Handle_t;
+
+
+void DS1775_Init(DS1775_Handle_t *pDS1775);
+
+HAL_StatusTypeDef DS1775_ReadTempature(I2C_HandleTypeDef *hi2c, DS1775_Handle_t *pDS1775);
+
+
+
+
+#ifndef INC_DS1775_H_
+#define INC_DS1775_H_
+
+
+
+#endif /* INC_DS1775_H_ */

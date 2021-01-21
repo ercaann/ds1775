@@ -1,0 +1,77 @@
+/*
+ * DS1775.h
+ *
+ *  Created on: May 8, 2020
+ *      Author: ERCAN
+ */
+#include<stdint.h>
+
+#define DS1775R_ADDR		0x48
+#define DS1775R1_ADDR		0x48 | 1
+#define DS1775R2_ADDR		0x48 | 2
+#define DS1775R3_ADDR		0x48 | 3
+#define DS1775R4_ADDR		0x48 | 4
+#define DS1775R5_ADDR		0x48 | 5
+#define DS1775R6_ADDR		0x48 | 6
+#define DS1775R7_ADDR		0x48 | 7
+
+
+#define CONFIG_SD			0
+#define CONFIG_TM			1
+#define CONFIG_POL			2
+#define CONFIG_F0			3
+#define CONFIG_F1			4
+#define CONFIG_R0			5
+#define CONFIG_R1			6
+
+typedef enum{
+	TEMPERATURE = 0x00,
+	CONFIGURATION = 0x01,
+	THYST = 0x02,
+	TOS = 0x03
+
+}DS1775_Address;
+
+typedef struct{
+
+	uint16_t Temperature;
+	uint8_t	 Config;
+	uint16_t Thyst;
+	uint16_t Tos;
+
+}DS1775_RegDef_t;
+
+#define DS1775	((DS1775_RegDef_t*)DS1775_Address
+
+typedef struct
+{
+	uint8_t DS1775_ComparatorMode;
+	uint8_t DS1775_InterruptMode;
+
+}DS1775_PinConfig_t;
+
+
+typedef struct
+{
+	DS1775_RegDef_t DS1775_RegDef;
+	DS1775_PinConfig_t DS1775_PinConfig;
+
+}DS1775_Handle_t;
+
+void DS1775_Init(DS1775_Handle_t *p);
+
+void DS1775_ReadTemperature(DS1775_Handle_t *p);
+
+void DS1775_ReadThermostat(DS1775_Handle_t *p);
+
+void D1775_InterruptEnable(DS1775_Handle_t *p);
+
+
+
+
+#ifndef INC_DS1775_H_
+#define INC_DS1775_H_
+
+
+
+#endif /* INC_DS1775_H_ */

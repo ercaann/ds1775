@@ -1,0 +1,20 @@
+07:51:33 **** Incremental Build of configuration Debug for project test ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DDEBUG -DSTM32F407xx -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "test.elf" @"objects.list"   -mcpu=cortex-m4 -T"A:\ERCAN\code2\test\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: test.elf
+ 
+arm-none-eabi-objdump -h -S  test.elf  > "test.list"
+arm-none-eabi-objcopy  -O binary  test.elf  "test.bin"
+arm-none-eabi-size   test.elf 
+   text	   data	    bss	    dec	    hex	filename
+  15564	    120	   1688	  17372	   43dc	test.elf
+Finished building: default.size.stdout
+ 
+Finished building: test.bin
+ 
+Finished building: test.list
+ 
+
+07:51:39 Build Finished. 0 errors, 0 warnings. (took 5s.656ms)
+

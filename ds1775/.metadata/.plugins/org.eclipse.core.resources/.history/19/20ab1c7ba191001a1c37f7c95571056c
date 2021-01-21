@@ -1,0 +1,62 @@
+/*
+ * DS1775.c
+ *
+ *  Created on: May 8, 2020
+ *      Author: ERCAN
+ */
+
+#include <ds1775.h>
+
+
+
+void DS1775_Init(DS1775_Handle_t *pDS1775)
+{
+	//select the THERMOSTAT mode
+	pDS1775->pREG->STATUS |= pDS1775->DS1775_PinConfig.DS1775_Mode << STATUS_TM;
+
+	//O.S output
+	pDS1775->pREG->STATUS |= pDS1775->DS1775_PinConfig.DS1775_Thermostat << STATUS_POL;
+
+	if(	pDS1775->pREG->STATUS & STATUS_POL ) {
+
+		pDS1775->pREG->STATUS |= pDS1775->DS1775_PinConfig.DS1775_FaultTol << STATUS_F0F1;
+	}
+
+	//Temperature Resolution bits
+	pDS1775->pREG->STATUS |= pDS1775->DS1775_PinConfig.DS1775_TempRes << STATUS_R0R1;
+
+}
+
+void DS1775_ReadTempature(I2C_HandleTypeDef *hi2c, DS1775_Handle_t *pDS1775, uint16_t DS1775_ADDR,  DS1775_DATA_t *pData)
+{
+
+	uint8_t data_temp[2];
+
+	while (HAL_I2C_Master_Transmit(hi2c, DS1775_ADDR, TEMPERATURE, 1, 1000) != HAL_OK);
+
+	while (HAL_I2C_Master_Receive(hi2c, DS1775_ADDR, data_temp, 2, 1000) != HAL_OK);
+
+	pData->temp = *data_temp;
+
+	if(pData->temp & 0x1000){
+
+
+	}
+	else{
+
+		for(int i=15; i>=0; i--){
+			if((pData->temp>>i & 1) == 0){
+
+				pData->temp |= 1 << i;
+				break;
+			}
+			else
+				pData->temp &=~(1 << i);
+		}
+	}
+
+
+
+}
+
+
